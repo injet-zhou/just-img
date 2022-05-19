@@ -1,7 +1,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 const global: Array<RouteRecordRaw> = [
-  { path: '/', name: 'home', component: () => import('@/views/home/Home.vue') },
+  {
+    path: '/',
+    name: 'home',
+    component: () => import('@/views/upload/Upload.vue'),
+  },
 ]
 
 const routes = global

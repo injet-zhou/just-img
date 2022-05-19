@@ -5,18 +5,28 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    BasicFooter: typeof import('./src/components/BasicFooter.vue')['default']
-    BasicHeader: typeof import('./src/components/BasicHeader.vue')['default']
-    BasicLayout: typeof import('./src/components/BasicLayout.vue')['default']
+    BasicFooter: typeof import('./src/components/layout/BasicFooter.vue')['default']
+    BasicHeader: typeof import('./src/components/layout/BasicHeader.vue')['default']
+    BasicLayout: typeof import('./src/components/layout/BasicLayout.vue')['default']
     Home: typeof import('./src/views/home/Home.vue')['default']
+    Img: typeof import('./src/components/common/Img.vue')['default']
+    NButton: typeof import('naive-ui')['NButton']
+    NIcon: typeof import('naive-ui')['NIcon']
+    NImage: typeof import('naive-ui')['NImage']
+    NImageGroup: typeof import('naive-ui')['NImageGroup']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
-    NLayoutFooter: typeof import('naive-ui')['NLayoutFooter']
     NLayoutHeader: typeof import('naive-ui')['NLayoutHeader']
     NP: typeof import('naive-ui')['NP']
+    NPopover: typeof import('naive-ui')['NPopover']
+    NSpace: typeof import('naive-ui')['NSpace']
     NText: typeof import('naive-ui')['NText']
     NUpload: typeof import('naive-ui')['NUpload']
     NUploadDragger: typeof import('naive-ui')['NUploadDragger']
+    PreviewList: typeof import('./src/components/home/PreviewList.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
+    Upload: typeof import('./src/views/upload/Upload.vue')['default']
   }
 }
 
