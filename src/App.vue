@@ -1,11 +1,12 @@
 <template>
-  <BasicLayout>
-    <router-view />
-  </BasicLayout>
+  <n-message-provider>
+    <BasicLayout>
+      <router-view />
+    </BasicLayout>
+  </n-message-provider>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <style lang="less">
 #app {

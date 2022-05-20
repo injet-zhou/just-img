@@ -4,17 +4,18 @@
       <n-space>
         <n-popover v-for="(item, index) in images" :key="index" trigger="hover">
           <template #trigger>
-            <n-image
-                width="150"
-                :src="item"
-                height="150"
-            />
+            <n-image width="150" :src="item" height="150" />
           </template>
-          <n-button strong secondary circle @click="deleteImage(index)" type="error">
-            <template #icon>
-              <n-icon><Delete20Regular /></n-icon>
+          <n-popconfirm @positive-click="deleteImage(index)">
+            <template #trigger>
+              <n-button strong secondary circle type="error">
+                <template #icon>
+                  <n-icon><Delete20Regular /></n-icon>
+                </template>
+              </n-button>
             </template>
-          </n-button>
+           确认删除？
+          </n-popconfirm>
         </n-popover>
       </n-space>
     </n-image-group>
@@ -23,7 +24,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import {Delete20Regular} from '@vicons/fluent'
+import { Delete20Regular } from '@vicons/fluent'
 
 interface Props {
   images: Array<any>
