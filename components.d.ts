@@ -25,7 +25,7 @@ declare module '@vue/runtime-core' {
     NText: typeof import('naive-ui')['NText']
     NUpload: typeof import('naive-ui')['NUpload']
     NUploadDragger: typeof import('naive-ui')['NUploadDragger']
-    PreviewList: typeof import('./src/components/home/PreviewList.vue')['default']
+    PreviewList: typeof import('./src/components/upload/PreviewList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Upload: typeof import('./src/views/upload/Upload.vue')['default']

@@ -1,6 +1,40 @@
 import axios from 'axios'
 import StorageManager from '@/utils/storage'
 
+const showMessage = (msg: string) => {
+  if (window.$message) {
+    window.$message.error(msg)
+  } else {
+    console.log(msg)
+    console.warn(
+      '$message is not initialized. Please use the following code to initialize it when the component is mounted: window.$message = useMessage()'
+    )
+  }
+}
+
+/**
+ * 处理请求错误
+ * @param data {Object} 请求返回的数据
+ * @param code {Number} 请求返回的状态码
+ */
+const requestErrorHandler = (data: any, code: number) => {
+  const storage = new StorageManager()
+  switch (code) {
+    case 403:
+      storage.clearToken()
+      break
+    case 401:
+      showMessage('登录失效，请重新登录')
+      break
+    case 404:
+      showMessage('请求资源不存在')
+      break
+    default:
+      showMessage(data.message)
+  }
+}
+
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
 // set authorization header if token exists
 axios.interceptors.request.use((config) => {
   const storage = new StorageManager()
@@ -16,6 +50,9 @@ axios.interceptors.response.use(
     return response.data
   },
   (error) => {
+    if (error.response && error.response.data) {
+      requestErrorHandler(error.response.data, error.response.status)
+    }
     return Promise.reject(error)
   }
 )
