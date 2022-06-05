@@ -5,11 +5,11 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    BasicFooter: typeof import('./src/components/layout/BasicFooter.vue')['default']
-    BasicHeader: typeof import('./src/components/layout/BasicHeader.vue')['default']
-    BasicLayout: typeof import('./src/components/layout/BasicLayout.vue')['default']
-    Home: typeof import('./src/views/home/Home.vue')['default']
-    Img: typeof import('./src/components/common/Img.vue')['default']
+    BasicFooter: typeof import('./src/components/layout/basic-footer.vue')['default']
+    BasicHeader: typeof import('./src/components/layout/basic-header.vue')['default']
+    BasicLayout: typeof import('./src/components/layout/basic-layout.vue')['default']
+    Home: typeof import('./src/views/home/home.vue')['default']
+    Img: typeof import('./src/components/common/img.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
     NIcon: typeof import('naive-ui')['NIcon']
     NImage: typeof import('naive-ui')['NImage']
@@ -25,10 +25,10 @@ declare module '@vue/runtime-core' {
     NText: typeof import('naive-ui')['NText']
     NUpload: typeof import('naive-ui')['NUpload']
     NUploadDragger: typeof import('naive-ui')['NUploadDragger']
-    PreviewList: typeof import('./src/components/upload/PreviewList.vue')['default']
+    PreviewList: typeof import('./src/components/upload/preview-list.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Upload: typeof import('./src/views/upload/Upload.vue')['default']
+    Upload: typeof import('./src/views/upload/upload.vue')['default']
   }
 }
 

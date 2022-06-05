@@ -2,9 +2,9 @@ import axios from 'axios'
 import StorageManager from '@/utils/storage'
 
 const showMessage = (msg: string) => {
-  if (window.$message) {
+  try {
     window.$message.error(msg)
-  } else {
+  } catch (e) {
     console.log(msg)
     console.warn(
       '$message is not initialized. Please use the following code to initialize it when the component is mounted: window.$message = useMessage()'
@@ -30,7 +30,7 @@ const requestErrorHandler = (data: any, code: number) => {
       showMessage('请求资源不存在')
       break
     default:
-      showMessage(data.message)
+      showMessage(data.msg || '请求失败')
   }
 }
 

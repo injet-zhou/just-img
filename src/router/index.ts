@@ -4,7 +4,7 @@ const global: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: () => import('@/views/upload/Upload.vue'),
+    component: () => import('@/views/upload/upload.vue'),
   },
 ]
 

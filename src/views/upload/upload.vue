@@ -18,17 +18,16 @@
       </n-upload-dragger>
     </n-upload>
     <!--    底部图片预览   -->
-    <PreviewList :images="previewList" />
+    <PreviewList :images="images" :original-files="originalFiles" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { UPLOAD_LIMIT } from '@/constants'
-// 预览图片列表
-const previewList: Array<any> = reactive([])
 // 上传图片列表
 const images: Array<any> = reactive([])
+const originalFiles: Array<File> = reactive([])
 /**
  * 上传图片
  * @param option {{file: File}}
@@ -38,11 +37,11 @@ const onFileChange = (option: any) => {
   if (images.length >= UPLOAD_LIMIT) {
     return
   }
-  images.push(option.file.file)
+  originalFiles.push(option.file.file)
   const reader = new FileReader()
   reader.readAsDataURL(option.file.file)
   reader.onload = () => {
-    previewList.push(reader.result)
+    images.push(reader.result)
   }
 }
 </script>

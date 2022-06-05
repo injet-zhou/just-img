@@ -7,7 +7,7 @@
             <n-image width="150" :src="item" height="150" />
           </template>
           <n-space>
-            <n-button strong secondary circle type="success">
+            <n-button @click="uploadImage(index)" strong secondary circle type="success">
               <template #icon>
                 <n-icon><ArrowUpload20Regular /></n-icon>
               </template>
@@ -33,19 +33,38 @@
 import { onMounted, reactive } from "vue";
 import { Delete20Regular, ArrowUpload20Regular } from '@vicons/fluent'
 import { useMessage } from 'naive-ui'
+import { upload } from "@/server";
 
 interface Props {
   images: Array<any>
+  originalFiles: Array<File>
 }
 const props = withDefaults(defineProps<Props>(), {
   images: () => {
     return []
   },
+  originalFiles: () => {
+    return []
+  }
 })
-const images: any = reactive(props.images)
+const images: Array<any> = reactive(props.images)
 const deleteImage = async (index: number) => {
   images.splice(index, 1)
 }
+const uploadImage = async (index: number) => {
+  const file = props.originalFiles[index]
+  const formData = new FormData()
+  formData.append('file', file)
+  try {
+    const res: any = await upload(formData)
+    if (res && res.code === 200) {
+      window.$message.success('上传成功')
+    }
+  } catch(e) {
+
+  }
+}
+
 onMounted(() => {
   window.$message = useMessage()
 })
