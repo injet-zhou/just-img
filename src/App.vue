@@ -1,8 +1,6 @@
 <template>
   <n-message-provider>
-    <BasicLayout>
-      <router-view />
-    </BasicLayout>
+    <router-view />
   </n-message-provider>
 </template>
 
