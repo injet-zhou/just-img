@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import StorageManager from '@/utils/storage'
 
 const global: Array<RouteRecordRaw> = [
   {
@@ -21,9 +20,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name === 'login') {
-    console.log('login')
-  }
+  document.title = 'just-img'
   next()
 })
 

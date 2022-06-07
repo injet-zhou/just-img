@@ -1,5 +1,6 @@
 import axios from 'axios'
 import StorageManager from '@/utils/storage'
+import { useRouter } from 'vue-router'
 
 const showMessage = (msg: string) => {
   try {
@@ -18,6 +19,7 @@ const showMessage = (msg: string) => {
  * @param code {Number} 请求返回的状态码
  */
 const requestErrorHandler = (data: any, code: number) => {
+  const router = useRouter()
   const storage = new StorageManager()
   switch (code) {
     case 403:
@@ -25,6 +27,7 @@ const requestErrorHandler = (data: any, code: number) => {
       break
     case 401:
       showMessage('登录失效，请重新登录')
+      router.push('/login')
       break
     case 404:
       showMessage('请求资源不存在')
