@@ -27,6 +27,7 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import { encodeLoginRequest, LoginRequest } from "@/proto/auth";
+import utils from '@/utils'
 
 const isLogin = ref(true)
 const loginReq = reactive<LoginRequest>({
@@ -35,11 +36,33 @@ const loginReq = reactive<LoginRequest>({
   username: "",
 })
 
+type ReqParams = {
+  username: string
+  password: string
+}
+
 const toggleLogin = () => {
   isLogin.value = !isLogin.value
 }
 
+const validateLoginParams = (req: ReqParams) => {
+
+}
+
 const login = async () => {
+  const req: ReqParams = {
+    username: loginReq.username?.trim() ?? '',
+    password: loginReq.password?.trim() ?? '',
+  }
+  if (!loginReq.username) {
+    window.$message.error('请输入用户名/邮箱')
+    return
+  }
+  if (!loginReq.password) {
+    window.$message.error('请输入密码')
+    return
+  }
+
   const data = encodeLoginRequest(loginReq)
   console.log(data)
 }
