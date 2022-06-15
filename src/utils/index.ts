@@ -5,5 +5,5 @@ import validate from '@/utils/validate'
 export default {
   stringUtil: string,
   validate,
-  storage,
+  Storage: storage,
 }

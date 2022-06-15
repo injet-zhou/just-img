@@ -5,12 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { useMessage } from "naive-ui";
 
-onMounted(() => {
-  window.$message = useMessage()
-})
 </script>
 
 <style lang="less">

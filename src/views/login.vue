@@ -25,11 +25,19 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { encodeLoginRequest, LoginRequest } from "@/proto/auth";
+import { useRouter } from "vue-router";
 import utils from '@/utils'
+import server from '@/server'
+import { useMessage } from "naive-ui";
 
-const isLogin = ref(true)
+const {api} = server
+const {isValidEmail} = utils.validate
+const {Storage} = utils
+const router = useRouter()
+
+const isLogin = ref(false)
 const loginReq = reactive<LoginRequest>({
   email: "",
   password: "",
@@ -39,33 +47,46 @@ const loginReq = reactive<LoginRequest>({
 type ReqParams = {
   username: string
   password: string
+  email: string
 }
 
 const toggleLogin = () => {
   isLogin.value = !isLogin.value
 }
 
-const validateLoginParams = (req: ReqParams) => {
-
-}
-
 const login = async () => {
   const req: ReqParams = {
     username: loginReq.username?.trim() ?? '',
     password: loginReq.password?.trim() ?? '',
+    email: loginReq.email?.trim() ?? '',
   }
-  if (!loginReq.username) {
+  if (!req.username) {
     window.$message.error('请输入用户名/邮箱')
     return
   }
-  if (!loginReq.password) {
+  if (!req.password) {
     window.$message.error('请输入密码')
     return
   }
 
+  if (isValidEmail(req.username)) {
+    req.email = req.username
+  }
+
   const data = encodeLoginRequest(loginReq)
-  console.log(data)
+  const res: any = await api.login(data)
+  if (res.code === 200) {
+    const storage = new Storage()
+    const {content} = res
+    storage.setToken(content?.token)
+    storage.set('user', content ?? '')
+    router.push('/')
+  }
 }
+
+onMounted(() => {
+  window.$message = useMessage()
+})
 
 </script>
 

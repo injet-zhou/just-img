@@ -1,6 +1,7 @@
 import axios from 'axios'
 import StorageManager from '@/utils/storage'
 import { useRouter } from 'vue-router'
+import _ from 'lodash'
 
 const showMessage = (msg: string) => {
   try {
@@ -37,6 +38,8 @@ const requestErrorHandler = (data: any, code: number) => {
   }
 }
 
+const throttled = _.throttle(requestErrorHandler, 1000, {})
+
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
 // set authorization header if token exists
 axios.interceptors.request.use((config) => {
@@ -54,7 +57,7 @@ axios.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.data) {
-      requestErrorHandler(error.response.data, error.response.status)
+      throttled(error.response.data, error.response.status)
     }
     return Promise.reject(error)
   }

@@ -1,0 +1,26 @@
+import axios from './http'
+
+const login = (req: Uint8Array) => {
+  const blob = new Blob([req], { type: 'buffer' })
+  return axios({
+    method: 'POST',
+    url: '/user/login',
+    headers: {
+      'Content-Type': 'application/x-protobuf',
+    },
+    data: blob,
+  })
+}
+
+function upload(data: FormData) {
+  return axios.post('/upload', data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
+}
+
+export default {
+  login,
+  upload,
+}

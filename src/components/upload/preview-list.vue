@@ -33,7 +33,9 @@
 import { onMounted, reactive } from "vue";
 import { Delete20Regular, ArrowUpload20Regular } from '@vicons/fluent'
 import { useMessage } from 'naive-ui'
-import { upload } from "@/server";
+import server from "@/server";
+
+const api = server.api
 
 interface Props {
   images: Array<any>
@@ -56,7 +58,7 @@ const uploadImage = async (index: number) => {
   const formData = new FormData()
   formData.append('file', file)
   try {
-    const res: any = await upload(formData)
+    const res: any = await api.upload(formData)
     if (res && res.code === 200) {
       window.$message.success('上传成功')
     }
