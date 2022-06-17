@@ -73,6 +73,81 @@ function _decodeLoginRequest(bb: ByteBuffer): LoginRequest {
   return message;
 }
 
+export interface RegisterRequest {
+  username?: string;
+  password?: string;
+  email?: string;
+}
+
+export function encodeRegisterRequest(message: RegisterRequest): Uint8Array {
+  let bb = popByteBuffer();
+  _encodeRegisterRequest(message, bb);
+  return toUint8Array(bb);
+}
+
+function _encodeRegisterRequest(message: RegisterRequest, bb: ByteBuffer): void {
+  // optional string username = 1;
+  let $username = message.username;
+  if ($username !== undefined) {
+    writeVarint32(bb, 10);
+    writeString(bb, $username);
+  }
+
+  // optional string password = 2;
+  let $password = message.password;
+  if ($password !== undefined) {
+    writeVarint32(bb, 18);
+    writeString(bb, $password);
+  }
+
+  // optional string email = 3;
+  let $email = message.email;
+  if ($email !== undefined) {
+    writeVarint32(bb, 26);
+    writeString(bb, $email);
+  }
+}
+
+export function decodeRegisterRequest(binary: Uint8Array): RegisterRequest {
+  return _decodeRegisterRequest(wrapByteBuffer(binary));
+}
+
+function _decodeRegisterRequest(bb: ByteBuffer): RegisterRequest {
+  let message: RegisterRequest = {} as any;
+
+  end_of_message: while (!isAtEnd(bb)) {
+    let tag = readVarint32(bb);
+
+    switch (tag >>> 3) {
+      case 0:
+        break end_of_message;
+
+      // optional string username = 1;
+      case 1: {
+        message.username = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // optional string password = 2;
+      case 2: {
+        message.password = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      // optional string email = 3;
+      case 3: {
+        message.email = readString(bb, readVarint32(bb));
+        break;
+      }
+
+      default:
+        skipUnknownField(bb, tag & 7);
+    }
+  }
+
+  return message;
+}
+
 export interface Long {
   low: number;
   high: number;

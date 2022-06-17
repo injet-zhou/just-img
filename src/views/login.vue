@@ -4,11 +4,12 @@
       <div :class="!isLogin ? 'signup slide-up' : 'signup'">
         <h2 class="form-title" @click="toggleLogin" id="signup"><span>or</span>注册</h2>
         <div class="form-holder">
-          <input type="text" class="input" placeholder="用户名" />
-          <input type="email" class="input" placeholder="邮箱" />
-          <input type="password" class="input" placeholder="密码" />
+          <input v-model="registerReq.username" type="text" class="input" placeholder="用户名" />
+          <input v-model="registerReq.email" type="email" class="input" placeholder="邮箱" />
+          <input v-model="registerReq.password" type="password" class="input" placeholder="密码" />
+          <input v-model="confirmPassword" type="password" class="input" placeholder="确认密码" />
         </div>
-        <button class="submit-btn">注册</button>
+        <button @click="throttledRegister" class="submit-btn">注册</button>
       </div>
       <div :class="isLogin ? 'login slide-up' : 'login'">
         <div class="center">
@@ -17,7 +18,7 @@
             <input v-model="loginReq.username" type="email" class="input" placeholder="邮箱/用户名" />
             <input v-model="loginReq.password" type="password" class="input" placeholder="密码" />
           </div>
-          <button @click="login" class="submit-btn">登录</button>
+          <button @click="throttledLogin" class="submit-btn">登录</button>
         </div>
       </div>
     </div>
@@ -26,11 +27,12 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
-import { encodeLoginRequest, LoginRequest } from "@/proto/auth";
+import { encodeLoginRequest, LoginRequest, RegisterRequest } from "@/proto/auth";
 import { useRouter } from "vue-router";
 import utils from '@/utils'
 import server from '@/server'
 import { useMessage } from "naive-ui";
+import _ from 'lodash'
 
 const {api} = server
 const {isValidEmail} = utils.validate
@@ -39,6 +41,13 @@ const router = useRouter()
 
 const isLogin = ref(false)
 const loginReq = reactive<LoginRequest>({
+  email: "",
+  password: "",
+  username: "",
+})
+const confirmPassword = ref("")
+
+const registerReq = reactive<RegisterRequest>({
   email: "",
   password: "",
   username: "",
@@ -83,6 +92,41 @@ const login = async () => {
     router.push('/')
   }
 }
+
+const throttledLogin = _.throttle(login, 3000)
+
+const register = async () => {
+  const req: ReqParams = {
+    username: registerReq.username?.trim() ?? '',
+    password: registerReq.password?.trim() ?? '',
+    email: registerReq.email?.trim() ?? '',
+  }
+  if (!req.username && !req.email) {
+    window.$message.error('请输入用户名或邮箱')
+    return
+  }
+  if (!req.password) {
+    window.$message.error('请输入密码')
+    return
+  }
+  if (req.password !== confirmPassword.value) {
+    window.$message.error('两次输入的密码不一致')
+    return
+  }
+  if (req.email && !isValidEmail(req.email)) {
+    window.$message.error('请输入正确的邮箱')
+    return
+  }
+  const data = encodeLoginRequest(registerReq)
+  const res: any = await api.register(data)
+  if (res.code === 200) {
+    window.$message.success('注册成功')
+    isLogin.value = true
+  }
+
+}
+
+const throttledRegister = _.throttle(register, 3000)
 
 onMounted(() => {
   window.$message = useMessage()

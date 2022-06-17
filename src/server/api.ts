@@ -12,6 +12,18 @@ const login = (req: Uint8Array) => {
   })
 }
 
+const register = (req: Uint8Array) => {
+  const blob = new Blob([req], { type: 'buffer' })
+  return axios({
+    method: 'POST',
+    url: '/user/register',
+    headers: {
+      'Content-Type': 'application/x-protobuf',
+    },
+    data: blob,
+  })
+}
+
 function upload(data: FormData) {
   return axios.post('/upload', data, {
     headers: {
@@ -23,4 +35,5 @@ function upload(data: FormData) {
 export default {
   login,
   upload,
+  register,
 }
