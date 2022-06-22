@@ -1,7 +1,7 @@
 <template>
   <div class="login-wrapper">
     <div class="form-structor">
-      <div :class="!isLogin ? 'signup slide-up' : 'signup'">
+      <div :class="!data.isLogin ? 'signup slide-up' : 'signup'">
         <h2 class="form-title" @click="toggleLogin" id="signup"><span>or</span>注册</h2>
         <div class="form-holder">
           <input v-model="registerReq.username" type="text" class="input" placeholder="用户名" />
@@ -11,11 +11,11 @@
         </div>
         <button @click="throttledRegister" class="submit-btn">注册</button>
       </div>
-      <div :class="isLogin ? 'login slide-up' : 'login'">
+      <div :class="data.isLogin ? 'login slide-up' : 'login'">
         <div class="center">
           <h2 class="form-title" @click="toggleLogin" id="login"><span>or</span>登录</h2>
           <div class="form-holder">
-            <input v-model="loginReq.username" type="email" class="input" placeholder="邮箱/用户名" />
+            <input class="input" v-model="loginReq.username" type="email" placeholder="邮箱/用户名" />
             <input v-model="loginReq.password" type="password" class="input" placeholder="密码" />
           </div>
           <button @click="throttledLogin" class="submit-btn">登录</button>
@@ -39,7 +39,9 @@ const {isValidEmail} = utils.validate
 const {Storage} = utils
 const router = useRouter()
 
-const isLogin = ref(false)
+const data = reactive({
+  isLogin: false,
+})
 const loginReq = reactive<LoginRequest>({
   email: "",
   password: "",
@@ -60,7 +62,7 @@ type ReqParams = {
 }
 
 const toggleLogin = () => {
-  isLogin.value = !isLogin.value
+  data.isLogin = !data.isLogin
 }
 
 const login = async () => {
@@ -83,13 +85,16 @@ const login = async () => {
   }
 
   const data = encodeLoginRequest(loginReq)
-  const res: any = await api.login(data)
-  if (res.code === 200) {
-    const storage = new Storage()
-    const {content} = res
-    storage.setToken(content?.token)
-    storage.set('user', content ?? '')
-    router.push('/')
+  try {
+    const res: any = await api.login(data)
+    if (res.code === 200) {
+      const storage = new Storage()
+      const {content} = res
+      storage.setToken(content?.token)
+      storage.set('user', content ?? '')
+      router.push('/')
+    }
+  } catch (e) {
   }
 }
 
@@ -117,11 +122,15 @@ const register = async () => {
     window.$message.error('请输入正确的邮箱')
     return
   }
-  const data = encodeLoginRequest(registerReq)
-  const res: any = await api.register(data)
-  if (res.code === 200) {
-    window.$message.success('注册成功')
-    isLogin.value = true
+  const bin = encodeLoginRequest(registerReq)
+  try {
+    const res: any = await api.register(bin)
+    if (res.code === 200) {
+      window.$message.success('注册成功')
+      data.isLogin = true
+    }
+  } catch (e: any) {
+    window.$message.error(e.message)
   }
 
 }
