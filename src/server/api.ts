@@ -25,7 +25,7 @@ const register = (req: Uint8Array) => {
 }
 
 function upload(data: FormData) {
-  return axios.post('/upload', data, {
+  return axios.post('/file/upload', data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
