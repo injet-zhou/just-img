@@ -89,9 +89,9 @@ const login = async () => {
     const res: any = await api.login(data)
     if (res.code === 200) {
       const storage = new Storage()
-      const {content} = res
-      storage.setToken(content?.token)
-      storage.set('user', content ?? '')
+      const {data} = res
+      storage.setToken(data?.token)
+      storage.set('user', JSON.stringify(data))
       router.push('/')
     }
   } catch (e) {

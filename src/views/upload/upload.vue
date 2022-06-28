@@ -18,7 +18,8 @@
       </n-upload-dragger>
     </n-upload>
     <!--    底部图片预览   -->
-    <PreviewList :images="images" :original-files="originalFiles" />
+    <PreviewList @uploaded="showUploaded" :images="images"  :original-files="originalFiles" />
+    <upload-info v-if="data.showUploaded" />
   </div>
 </template>
 
@@ -28,6 +29,13 @@ import { UPLOAD_LIMIT } from '@/constants'
 // 上传图片列表
 const images: Array<any> = reactive([])
 const originalFiles: Array<File> = reactive([])
+const data =reactive({
+  showUploaded: false
+})
+
+const showUploaded = () => {
+  data.showUploaded = true
+}
 /**
  * 上传图片
  * @param option {{file: File}}
