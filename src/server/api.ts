@@ -32,8 +32,13 @@ function upload(data: FormData) {
   })
 }
 
+function platforms() {
+  return axios.get('/config/platforms')
+}
+
 export default {
   login,
   upload,
   register,
+  platforms,
 }

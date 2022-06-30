@@ -43,7 +43,8 @@ const emit = defineEmits(['uploaded'])
 
 interface Props {
   images: Array<any>
-  originalFiles: Array<File>
+  originalFiles: Array<File>,
+  platform: number
 }
 const props = withDefaults(defineProps<Props>(), {
   images: () => {
@@ -51,7 +52,8 @@ const props = withDefaults(defineProps<Props>(), {
   },
   originalFiles: () => {
     return []
-  }
+  },
+  platform:0
 })
 const images: Array<any> = reactive(props.images)
 const deleteImage = async (index: number) => {
@@ -61,6 +63,7 @@ const uploadImage = async (index: number) => {
   const file = props.originalFiles[index]
   const formData = new FormData()
   formData.append('file', file)
+  formData.append('platform', props.platform.toString())
   try {
     const res: any = await api.upload(formData)
     if (res && res.code === 200) {

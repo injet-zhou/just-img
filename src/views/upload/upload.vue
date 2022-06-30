@@ -1,5 +1,10 @@
 <template>
   <div class="uploader">
+    <n-grid :x-gap="12" :cols="6">
+      <n-grid-item :offset="5">
+        <n-select v-model:value="platform" :options="data.platforms" />
+      </n-grid-item>
+    </n-grid>
     <n-upload
         :on-change="onFileChange"
         :show-file-list="false"
@@ -18,24 +23,50 @@
       </n-upload-dragger>
     </n-upload>
     <!--    底部图片预览   -->
-    <PreviewList @uploaded="showUploaded" :images="images"  :original-files="originalFiles" />
+    <PreviewList :platform="platform" @uploaded="showUploaded" :images="images"  :original-files="originalFiles" />
     <upload-info v-if="data.showUploaded" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { onMounted, reactive, ref } from "vue";
 import { UPLOAD_LIMIT } from '@/constants'
+import server from '@/server'
+const { api } = server
 // 上传图片列表
 const images: Array<any> = reactive([])
 const originalFiles: Array<File> = reactive([])
+
+const platform = ref(1)
+
 const data =reactive({
-  showUploaded: false
+  showUploaded: false,
+  platforms: <any>[]
 })
+
+interface Platform {
+  type: number
+  label: string
+}
 
 const showUploaded = () => {
   data.showUploaded = true
 }
+
+const loadPlatforms = async () => {
+  const res: any = await api.platforms()
+  console.log(res)
+  if (res && res.code === 200) {
+    const platforms: Array<Platform> = res.data
+    data.platforms = platforms.map(item => {
+      return {
+        label: item.label,
+        value: item.type
+      }
+    })
+  }
+}
+
 /**
  * 上传图片
  * @param option {{file: File}}
@@ -52,6 +83,10 @@ const onFileChange = (option: any) => {
     images.push(reader.result)
   }
 }
+
+onMounted(() =>{
+  loadPlatforms()
+})
 </script>
 
 <style scoped lang="less">
