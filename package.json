@@ -12,6 +12,7 @@
     "dotenv": "^16.0.1",
     "lodash": "^4.17.21",
     "node-sass": "^7.0.1",
+    "pinia": "^2.0.14",
     "protobufjs": "^6.11.3",
     "sass": "^1.52.3",
     "sass-loader": "^13.0.0",
