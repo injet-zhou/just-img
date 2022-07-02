@@ -30,15 +30,16 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive,provide } from "vue";
-import type { InjectionKey } from 'vue'
+import { onMounted, reactive } from "vue";
 import { Delete20Regular, ArrowUpload20Regular } from '@vicons/fluent'
 import { useMessage } from 'naive-ui'
 import server from "@/server";
+import useUploadStore from "@/store/upload";
+
+const store = useUploadStore();
 
 const api = server.api
 
-const key = Symbol("key") as InjectionKey<string>
 const emit = defineEmits(['uploaded'])
 
 interface Props {
@@ -67,7 +68,10 @@ const uploadImage = async (index: number) => {
   try {
     const res: any = await api.upload(formData)
     if (res && res.code === 200) {
-      provide(key, res.data)
+      console.log(res.data)
+      store.$patch((state)=>{
+        state.URLs.push(res.data)
+      })
       window.$message.success('上传成功')
       emit('uploaded')
     }
