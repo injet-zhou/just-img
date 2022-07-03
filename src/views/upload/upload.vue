@@ -55,7 +55,6 @@ const showUploaded = () => {
 
 const loadPlatforms = async () => {
   const res: any = await api.platforms()
-  console.log(res)
   if (res && res.code === 200) {
     const platforms: Array<Platform> = res.data
     data.platforms = platforms.map(item => {
