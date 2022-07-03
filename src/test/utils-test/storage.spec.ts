@@ -22,7 +22,7 @@ describe('storage', () => {
 
   it('clearToken', () => {
     s.clearToken()
-    expect(s.getToken()).toBe(null)
+    expect(s.getToken()).toBe('')
   })
 
   it('getToken', () => {
@@ -60,7 +60,7 @@ describe('storage', () => {
 
   it('clearToken', () => {
     s2.clearToken()
-    expect(s2.getToken()).toBe(null)
+    expect(s2.getToken()).toBe('')
   })
 
   it('getToken', () => {
