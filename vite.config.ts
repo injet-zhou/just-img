@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import { resolve } from 'path'
-import { configDefaults } from "vitest/config";
+import { configDefaults } from 'vitest/config'
 
 export default defineConfig({
   css: {
@@ -14,8 +14,14 @@ export default defineConfig({
       },
     },
   },
-  test:{
-    exclude: [...configDefaults.exclude, '**/node_modules/**', '**/dist/**', '**/.{idea,git,cache,output,temp}/**'],
+  test: {
+    exclude: [
+      ...configDefaults.exclude,
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.{idea,git,cache,output,temp}/**',
+    ],
+    environment: 'jsdom',
   },
   plugins: [
     vue(),
