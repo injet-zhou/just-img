@@ -44,24 +44,30 @@ const originalFiles: Array<File> = reactive([])
 
 const platform = ref(1)
 
-const data = reactive({
-  showUploaded: false,
-  platforms: <any>[],
-})
-
 interface Platform {
-  type: number
+  value: number
   label: string
 }
+
+const data = reactive({
+  showUploaded: false,
+  platforms: <Platform[]>[],
+})
+
 
 const showUploaded = () => {
   data.showUploaded = true
 }
 
+interface RemotePlatform {
+  label: string
+  type: number
+}
+
 const loadPlatforms = async () => {
   const res: any = await api.platforms()
   if (res && res.code === 200) {
-    const platforms: Array<Platform> = res.data
+    const platforms: Array<RemotePlatform> = res.data
     data.platforms = platforms.map((item) => {
       return {
         label: item.label,
