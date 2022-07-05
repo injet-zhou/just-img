@@ -37,12 +37,17 @@
 import { onMounted, reactive, ref } from 'vue'
 import { UPLOAD_LIMIT } from '@/constants'
 import server from '@/server'
+import StorageManager from "@/utils/storage";
+
 const { api } = server
 // 上传图片列表
 const images: Array<ArrayBuffer> = reactive([])
 const originalFiles: Array<File> = reactive([])
 
 const platform = ref(1)
+const PLATFORM_KEY = 'platform'
+
+const storage = new StorageManager()
 
 interface Platform {
   value: number
@@ -65,16 +70,42 @@ interface RemotePlatform {
 }
 
 const loadPlatforms = async () => {
-  const res: any = await api.platforms()
-  if (res && res.code === 200) {
-    const platforms: Array<RemotePlatform> = res.data
-    data.platforms = platforms.map((item) => {
-      return {
-        label: item.label,
-        value: item.type,
-      }
-    })
+  let platforms: Array<RemotePlatform> = []
+  try{
+    platforms = loadPlatformFromLocal()
+    if (platforms.length !== 0) {
+      data.platforms = transferPlatforms(platforms)
+      return
+    }
+    const res: any = await api.platforms()
+    if (res && res.code === 200) {
+      platforms = res.data
+      storage.set(PLATFORM_KEY, platforms)
+      data.platforms = transferPlatforms(platforms)
+    }
+  } catch (e) {
+    window.$message.error('获取平台列表失败')
   }
+}
+/**
+ * 转换平台数据
+ * @param platforms {Array<RemotePlatform>}
+ */
+const transferPlatforms = (platforms: Array<RemotePlatform>): Array<Platform> => {
+  return platforms.map((item) => {
+    return {
+      label: item.label,
+      value: item.type,
+    }
+  })
+}
+
+const loadPlatformFromLocal = () => {
+  const platforms = storage.get(PLATFORM_KEY)
+  if (platforms) {
+    return JSON.parse(platforms)
+  }
+  return []
 }
 
 /**
