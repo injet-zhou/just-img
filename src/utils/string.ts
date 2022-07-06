@@ -7,6 +7,16 @@ const trim = (str: string): string => {
   return str
 }
 
+export const base64ToArrayBuffer = (base64: string): ArrayBuffer => {
+  const binStr = window.atob(base64)
+  const len = binStr.length
+  const bytes = new Uint8Array(len)
+  for (let i = 0; i < len; i++) {
+    bytes[i] = binStr.charCodeAt(i)
+  }
+  return bytes.buffer
+}
+
 export default {
   trim,
 }
