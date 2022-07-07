@@ -17,6 +17,16 @@ export const base64ToArrayBuffer = (base64: string): ArrayBuffer => {
   return bytes.buffer
 }
 
+export const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer): string => {
+  let binary = ''
+  const bytes = new Uint8Array(arrayBuffer)
+  const len = bytes.byteLength
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i])
+  }
+  return window.btoa(binary)
+}
+
 export default {
   trim,
 }
