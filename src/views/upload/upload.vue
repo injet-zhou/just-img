@@ -80,11 +80,12 @@ const loadPlatforms = async () => {
     const res: any = await api.platforms()
     if (res && res.code === 200) {
       platforms = res.data
-      storage.set(PLATFORM_KEY, platforms)
+      storage.set(PLATFORM_KEY, JSON.stringify(platforms))
       data.platforms = transferPlatforms(platforms)
     }
-  } catch (e) {
-    window.$message.error('获取平台列表失败')
+  } catch (e: any) {
+    const msg = e?.message as string
+    window.$message.error('获取平台列表失败'+ msg)
   }
 }
 /**

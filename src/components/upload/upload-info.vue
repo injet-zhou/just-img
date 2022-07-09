@@ -8,7 +8,7 @@
           :name="sentence2SnakeCase(item.label)"
           :tab="item.label"
         >
-          <div v-for="(url, index) in URLs" :key="index">
+          <div class="url" v-for="(url, index) in URLs" :key="index">
             {{ item.formatter(url) }}
           </div>
         </n-tab-pane>
@@ -43,7 +43,9 @@ const format: Format[] = [
   {
     label: 'Markdown',
     formatter: (value: string) => {
-      return `![${value}](${value})`
+      const strs = value.split('/')
+      const name = strs[strs.length - 1]
+      return `[${name}](${value})`
     },
   },
   {
@@ -61,9 +63,7 @@ const format: Format[] = [
   {
     label: 'Markdown with link',
     formatter: (value: string) => {
-      const strs = value.split('/')
-      const name = strs[strs.length - 1]
-      return `[${name}](${value})`
+      return `[${value}](${value})`
     },
   },
 ]
@@ -77,6 +77,6 @@ const format: Format[] = [
 .url {
  display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  align-items: flex-start;
 }
 </style>
