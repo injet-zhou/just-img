@@ -1,10 +1,17 @@
 <template>
   <div class="uploader">
-    <n-grid :x-gap="12" :cols="6">
-      <n-grid-item :offset="5">
-        <n-select v-model:value="platform" :options="data.platforms" />
-      </n-grid-item>
-    </n-grid>
+    <div class="toolbar">
+      <n-grid :x-gap="5" :cols="6">
+        <n-grid-item>
+          <n-select v-model:value="platform" :options="data.platforms" />
+        </n-grid-item>
+        <n-grid-item>
+          <n-button strong secondary type="primary">
+            一键上传
+          </n-button>
+        </n-grid-item>
+      </n-grid>
+    </div>
     <n-upload
       :on-change="onFileChange"
       :show-file-list="false"
@@ -146,7 +153,10 @@ onMounted(() => {
   align-items: center;
   height: 350px;
 }
-:deep(.n-upload-trigger) {
+:deep(.n-upload-trigger), .toolbar {
   width: 58%;
+}
+.toolbar {
+  margin-bottom: 12px;
 }
 </style>
