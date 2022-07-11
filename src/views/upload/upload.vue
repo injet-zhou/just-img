@@ -5,7 +5,7 @@
         <n-grid-item>
           <n-select v-model:value="platform" :options="data.platforms" />
         </n-grid-item>
-        <n-grid-item>
+        <n-grid-item v-if="images.length > 3">
           <n-button strong secondary type="primary">
             一键上传
           </n-button>
@@ -33,8 +33,6 @@
     <upload-list
       :platform="platform"
       @uploaded="showUploaded"
-      :images="images"
-      :original-files="originalFiles"
     />
     <upload-info v-if="data.showUploaded" />
   </div>
@@ -45,11 +43,12 @@ import { onMounted, reactive, ref } from 'vue'
 import { UPLOAD_LIMIT } from '@/constants'
 import server from '@/server'
 import StorageManager from "@/utils/storage";
+import useUploadStore from "@/store/upload";
+
+const store = useUploadStore();
+const images: Array<ArrayBuffer> = reactive(store.images);
 
 const { api } = server
-// 上传图片列表
-const images: Array<ArrayBuffer> = reactive([])
-const originalFiles: Array<File> = reactive([])
 
 const platform = ref(1)
 const PLATFORM_KEY = 'platform'
@@ -122,14 +121,14 @@ const loadPlatformFromLocal = () => {
  */
 const onFileChange = (option: any) => {
   // 超过限制不上传
-  if (images.length >= UPLOAD_LIMIT) {
+  if (store.images.length >= UPLOAD_LIMIT) {
     return
   }
-  originalFiles.push(option.file.file)
+  store.files.push(option.file)
   const reader = new FileReader()
   reader.readAsDataURL(option.file.file)
   reader.onload = () => {
-    images.push(reader.result as ArrayBuffer)
+    store.images.push(reader.result as ArrayBuffer)
   }
 }
 

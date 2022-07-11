@@ -7,7 +7,6 @@
           :key="index"
           :image="item"
           :index="index"
-          @delete="deleteImage"
           @upload="uploadImage"
         ></upload-list-item>
       </n-space>
@@ -29,25 +28,15 @@ const api = server.api
 const emit = defineEmits(['uploaded'])
 
 interface Props {
-  images: Array<any>
-  originalFiles: Array<File>
   platform: number
 }
 const props = withDefaults(defineProps<Props>(), {
-  images: () => {
-    return []
-  },
-  originalFiles: () => {
-    return []
-  },
   platform: 0,
 })
-const images: Array<any> = reactive(props.images)
-const deleteImage = async (index: number) => {
-  images.splice(index, 1)
-}
+const images: Array<ArrayBuffer> = reactive(store.images)
+const files: Array<File> = reactive(store.files)
 const uploadImage = async (index: number) => {
-  const file = props.originalFiles[index]
+  const file = files[index]
   const formData = new FormData()
   formData.append('file', file)
   formData.append('platform', props.platform.toString())
