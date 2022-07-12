@@ -1,9 +1,9 @@
 <template>
   <n-layout>
-    <n-layout-header bordered :inverted="true"
+    <n-layout-content>
+      <n-layout-header bordered :inverted="true"
       ><basic-header></basic-header
-    ></n-layout-header>
-    <n-layout-content content-style="padding: 24px;">
+      ></n-layout-header>
       <slot></slot>
     </n-layout-content>
     <div class="footer"><basic-footer /></div>
@@ -25,6 +25,5 @@
   text-align: center;
   line-height: 50px;
   font-size: 14px;
-  color: #666;
 }
 </style>

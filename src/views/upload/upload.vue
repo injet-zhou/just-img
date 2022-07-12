@@ -140,6 +140,7 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-top: 15px;
 }
 :deep(.n-upload-dragger) {
   display: flex;
