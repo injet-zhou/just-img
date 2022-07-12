@@ -6,9 +6,7 @@
           <n-select v-model:value="platform" :options="data.platforms" />
         </n-grid-item>
         <n-grid-item v-if="images.length > 3">
-          <n-button strong secondary type="primary">
-            一键上传
-          </n-button>
+          <n-button strong secondary type="primary"> 一键上传 </n-button>
         </n-grid-item>
       </n-grid>
     </div>
@@ -30,10 +28,7 @@
       </n-upload-dragger>
     </n-upload>
     <!--    底部图片预览   -->
-    <upload-list
-      :platform="platform"
-      @uploaded="showUploaded"
-    />
+    <upload-list :platform="platform" @uploaded="showUploaded" />
     <upload-info v-if="data.showUploaded" />
   </div>
 </template>
@@ -42,11 +37,11 @@
 import { onMounted, reactive, ref } from 'vue'
 import { UPLOAD_LIMIT } from '@/constants'
 import server from '@/server'
-import StorageManager from "@/utils/storage";
-import useUploadStore from "@/store/upload";
+import StorageManager from '@/utils/storage'
+import useUploadStore from '@/store/upload'
 
-const store = useUploadStore();
-const images: Array<ArrayBuffer> = reactive(store.images);
+const store = useUploadStore()
+const images: Array<ArrayBuffer> = reactive(store.images)
 
 const { api } = server
 
@@ -65,7 +60,6 @@ const data = reactive({
   platforms: <Platform[]>[],
 })
 
-
 const showUploaded = () => {
   data.showUploaded = true
 }
@@ -77,7 +71,7 @@ interface RemotePlatform {
 
 const loadPlatforms = async () => {
   let platforms: Array<RemotePlatform> = []
-  try{
+  try {
     platforms = loadPlatformFromLocal()
     if (platforms.length !== 0) {
       data.platforms = transferPlatforms(platforms)
@@ -91,14 +85,16 @@ const loadPlatforms = async () => {
     }
   } catch (e: any) {
     const msg = e?.message as string
-    window.$message.error('获取平台列表失败'+ msg)
+    window.$message.error('获取平台列表失败' + msg)
   }
 }
 /**
  * 转换平台数据
  * @param platforms {Array<RemotePlatform>}
  */
-const transferPlatforms = (platforms: Array<RemotePlatform>): Array<Platform> => {
+const transferPlatforms = (
+  platforms: Array<RemotePlatform>
+): Array<Platform> => {
   return platforms.map((item) => {
     return {
       label: item.label,
@@ -152,7 +148,8 @@ onMounted(() => {
   align-items: center;
   height: 350px;
 }
-:deep(.n-upload-trigger), .toolbar {
+:deep(.n-upload-trigger),
+.toolbar {
   width: 58%;
 }
 .toolbar {

@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import {reactive} from 'vue'
+import { reactive } from 'vue'
 import useUploadStore from '@/store/upload'
 const store = useUploadStore()
 
@@ -75,7 +75,7 @@ const format: Format[] = [
   width: 58%;
 }
 .url {
- display: flex;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
 }

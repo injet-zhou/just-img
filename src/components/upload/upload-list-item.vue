@@ -1,7 +1,7 @@
 <template>
   <n-popover trigger="hover">
     <template #trigger>
-      <n-image width="150" :src="images" height="150" />
+      <n-image width="150" :src="image" height="150" />
     </template>
     <n-space>
       <n-button @click="uploadImage()" strong secondary circle type="success">
@@ -25,13 +25,10 @@
 
 <script setup lang="ts">
 import { Delete20Regular, ArrowUpload20Regular } from '@vicons/fluent'
-import useUploadStore from "@/store/upload";
-import { reactive } from "vue";
+import useUploadStore from '@/store/upload'
 const emit = defineEmits(['upload'])
 
 const store = useUploadStore()
-
-const images = reactive(store.images)
 
 interface Props {
   index: number
@@ -41,12 +38,14 @@ const props = withDefaults(defineProps<Props>(), {
   index: 0,
 })
 
+const image = store.images[props.index]
+
 const uploadImage = async () => {
   emit('upload', props.index)
 }
 
 const deleteImage = async () => {
-    store.deleteImage(props.index)
+  store.deleteImage(props.index)
   store.deleteFile(props.index)
-  }
+}
 </script>

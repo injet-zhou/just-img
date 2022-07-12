@@ -5,7 +5,6 @@
         <upload-list-item
           v-for="(item, index) in images"
           :key="index"
-          :image="item"
           :index="index"
           @upload="uploadImage"
         ></upload-list-item>
