@@ -36,6 +36,7 @@ const images: Array<ArrayBuffer> = reactive(store.images)
 const files: Array<File> = reactive(store.files)
 const uploadImage = async (index: number) => {
   const file = files[index]
+  console.log(file)
   const formData = new FormData()
   formData.append('file', file)
   formData.append('platform', props.platform.toString())

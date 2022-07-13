@@ -74,6 +74,7 @@ const loadPlatforms = async () => {
   try {
     platforms = loadPlatformFromLocal()
     if (platforms.length !== 0) {
+      // 如果本地有存储的平台，则直接使用本地的平台
       data.platforms = transferPlatforms(platforms)
       return
     }
@@ -85,7 +86,7 @@ const loadPlatforms = async () => {
     }
   } catch (e: any) {
     const msg = e?.message as string
-    window.$message.error('获取平台列表失败' + msg)
+    window.$message.error('获取平台列表失败: ' + msg)
   }
 }
 /**
@@ -103,6 +104,7 @@ const transferPlatforms = (
   })
 }
 
+// 加载本地平台数据
 const loadPlatformFromLocal = () => {
   const platforms = storage.get(PLATFORM_KEY)
   if (platforms) {
@@ -120,7 +122,7 @@ const onFileChange = (option: any) => {
   if (store.images.length >= UPLOAD_LIMIT) {
     return
   }
-  store.files.push(option.file)
+  store.files.push(option.file.file)
   const reader = new FileReader()
   reader.readAsDataURL(option.file.file)
   reader.onload = () => {
