@@ -11,36 +11,82 @@
     </n-grid-item>
     <n-grid-item :offset="2">
       <div class="avatar-container">
-        <n-tag round :bordered="false" :color="{ color: '#BBB', textColor: '#555', borderColor: '#555' }">
-          {{user.username}}
-          <template #avatar>
-            <n-avatar
-              :src="user.avatar"
-            />
-          </template>
-        </n-tag>
+        <n-dropdown
+          trigger="click"
+          :options="dropdownOptions"
+          @select="handleSelect"
+        >
+          <n-tag
+            round
+            :bordered="false"
+            :color="{ color: '#FFF', textColor: '#555', borderColor: '#555' }"
+          >
+            {{ user.username }}
+            <template #avatar>
+              <n-avatar :src="user.avatar" />
+            </template>
+          </n-tag>
+        </n-dropdown>
       </div>
     </n-grid-item>
   </n-grid>
 </template>
 
 <script setup lang="ts">
-import StorageManager from "@/utils/storage";
-import { onMounted, reactive } from "vue";
-const storage = new StorageManager();
+import StorageManager from '@/utils/storage'
+import { onMounted, reactive, h } from 'vue'
+import { NIcon } from 'naive-ui'
+import { ArrowRight20Filled, BuildingGovernment20Filled } from '@vicons/fluent'
+const storage = new StorageManager()
 
-const defaultAvatar = "https://s3.bmp.ovh/imgs/2022/07/13/ae8f5a5375163dd1.png"
+const dropdownOptions = [
+  {
+    label: '管理后台',
+    key: 'admin',
+    icon() {
+      return h(NIcon, null, {
+        default: () => h(BuildingGovernment20Filled),
+      })
+    },
+  },
+  {
+    label: '退出登录',
+    key: 'logout',
+    icon() {
+      return h(NIcon, null, {
+        default: () => h(ArrowRight20Filled),
+      })
+    },
+  },
+]
+
+const defaultAvatar = 'https://s3.bmp.ovh/imgs/2022/07/13/ae8f5a5375163dd1.png'
 
 const user = reactive({
-  username: "",
-  avatar: "",
-});
+  username: '',
+  avatar: '',
+})
 
-onMounted(()=>{
-  const userInfo = JSON.parse(storage.get("user") ?? "") ?? {};
+const handleSelect = (key: string | number) => {
+  const action = String(key)
+  switch (action) {
+    case 'admin':
+      window.location.href = '/admin'
+      break
+    case 'logout':
+      storage.clearToken()
+      window.location.href = '/login'
+      break
+    default:
+      break
+  }
+}
+
+onMounted(() => {
+  const userInfo = JSON.parse(storage.get('user') ?? '') ?? {}
   if (userInfo && Object.keys(userInfo).length) {
-    user.username = userInfo.username;
-    user.avatar = userInfo.avatar || defaultAvatar;
+    user.username = userInfo.username
+    user.avatar = userInfo.avatar || defaultAvatar
   }
 })
 </script>
