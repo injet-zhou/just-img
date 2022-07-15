@@ -33,11 +33,14 @@
 </template>
 
 <script setup lang="ts">
-import StorageManager from '@/utils/storage'
 import { onMounted, reactive, h } from 'vue'
+import { useRouter } from "vue-router";
 import { NIcon } from 'naive-ui'
 import { ArrowRight20Filled, BuildingGovernment20Filled } from '@vicons/fluent'
+import StorageManager from '@/utils/storage'
 const storage = new StorageManager()
+
+const router = useRouter()
 
 const dropdownOptions = [
   {
@@ -71,7 +74,7 @@ const handleSelect = (key: string | number) => {
   const action = String(key)
   switch (action) {
     case 'admin':
-      window.location.href = '/admin'
+      router.push('/admin')
       break
     case 'logout':
       storage.clearToken()

@@ -11,6 +11,21 @@ const global: Array<RouteRecordRaw> = [
     name: 'login',
     component: () => import('@/views/login.vue'),
   },
+  {
+    path: '/admin',
+    name: 'admin',
+    redirect: {
+      name: 'admin_home',
+    },
+    component: () => import('@/views/admin/admin.vue'),
+    children: [
+      {
+        path: '/admin/home',
+        name: 'admin_home',
+        component: () => import('@/views/admin/admin-home.vue'),
+      },
+    ],
+  },
 ]
 
 const routes = global

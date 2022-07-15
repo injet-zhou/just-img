@@ -5,9 +5,12 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Admin: typeof import('./src/views/admin/admin.vue')['default']
+    AdminHome: typeof import('./src/views/admin/admin-home.vue')['default']
     BasicFooter: typeof import('./src/components/layout/basic-footer.vue')['default']
     BasicHeader: typeof import('./src/components/layout/basic-header.vue')['default']
     BasicLayout: typeof import('./src/components/layout/basic-layout.vue')['default']
+    Dashboard: typeof import('./src/components/admin/dashboard.vue')['default']
     Home: typeof import('./src/views/home/home.vue')['default']
     Img: typeof import('./src/components/common/img.vue')['default']
     Login: typeof import('./src/views/login.vue')['default']
@@ -22,7 +25,10 @@ declare module '@vue/runtime-core' {
     NImageGroup: typeof import('naive-ui')['NImageGroup']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
+    NLayoutFooter: typeof import('naive-ui')['NLayoutFooter']
     NLayoutHeader: typeof import('naive-ui')['NLayoutHeader']
+    NLayoutSider: typeof import('naive-ui')['NLayoutSider']
+    NMenu: typeof import('naive-ui')['NMenu']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NP: typeof import('naive-ui')['NP']
     NPopconfirm: typeof import('naive-ui')['NPopconfirm']
