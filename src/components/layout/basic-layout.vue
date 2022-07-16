@@ -2,7 +2,7 @@
   <n-layout>
     <n-layout-content>
       <n-layout-header bordered :inverted="true"
-      ><basic-header></basic-header
+        ><basic-header></basic-header
       ></n-layout-header>
       <slot></slot>
     </n-layout-content>
@@ -16,5 +16,4 @@
 .n-layout {
   height: 100%;
 }
-
 </style>
