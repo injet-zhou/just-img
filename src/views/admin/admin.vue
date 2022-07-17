@@ -71,12 +71,28 @@ const menuOptions: MenuOption[] = [
     icon: renderIcon(Image20Regular),
     children: [
       {
-        label: '相册',
+        label: () => {
+          return h(
+            RouterLink,
+            { to: { name: 'admin_picture_list' } },
+            {
+              default: () => '相册',
+            }
+          )
+        },
         key: 'album',
         icon: renderIcon(ImageSearch20Regular),
       },
       {
-        label: '列表',
+        label: () => {
+          return h(
+            RouterLink,
+            { to: { name: 'admin_picture_list' } },
+            {
+              default: () => '图片列表',
+            }
+          )
+        },
         key: 'pic-list',
         icon: renderIcon(ImageAltText20Regular),
       },

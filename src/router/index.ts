@@ -24,6 +24,11 @@ const global: Array<RouteRecordRaw> = [
         name: 'admin_home',
         component: () => import('@/views/admin/admin-home.vue'),
       },
+      {
+        path: '/admin/picture-list',
+        name: 'admin_picture_list',
+        component: () => import('@/components/admin/picture/picture-list.vue'),
+      },
     ],
   },
 ]
