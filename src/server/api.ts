@@ -36,9 +36,14 @@ function platforms() {
   return axios.get('/config/platforms')
 }
 
+function imageList(req: any) {
+  return axios.post('/file/image/list', req)
+}
+
 export default {
   login,
   upload,
   register,
   platforms,
+  imageList,
 }

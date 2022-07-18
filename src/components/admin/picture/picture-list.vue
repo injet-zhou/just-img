@@ -4,41 +4,73 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive } from "vue";
+import { onMounted, reactive } from "vue";
+import server from '@/server';
+
+const { api } = server;
 
 const columns = [
   {
-    title: 'Name',
-    key: 'name'
+    title: '文件名',
+    key: 'originalName'
   },
   {
-    title: 'Age',
-    key: 'age'
+    title: '大小',
+    key: 'size'
   },
   {
-    title: 'Address',
-    key: 'address'
+    title: '路径',
+    key: 'path'
+  },
+  {
+    title: 'URL',
+    key: 'url'
+  },
+  {
+    title: '上传用户',
+    key: 'username'
   }
 ]
 
-const data = Array.from({ length: 46 }).map((_, index) => ({
-  key: index,
-  name: `Edward King ${index}`,
-  age: 32,
-  address: `London, Park Lane no. ${index}`
-}))
+
+
+const data: Array<any> = reactive([])
+
+const pagination = reactive({
+  page: 1,
+  pageSize: 20,
+})
 const paginationReactive = reactive({
-  page: 2,
-  pageSize: 5,
+  page: 1,
+  pageSize: 20,
   showSizePicker: true,
-  pageSizes: [3, 5, 7],
+  pageSizes: [10, 20, 50],
   onChange: (page: number) => {
     paginationReactive.page = page
+    pagination.page = page
   },
   onUpdatePageSize: (pageSize: number) => {
     paginationReactive.pageSize = pageSize
     paginationReactive.page = 1
+    pagination.page = 1
+    pagination.pageSize = pageSize
   }
+})
+
+const getImages = async () => {
+  const req = {
+    page: pagination.page,
+    pageSize: pagination.pageSize
+  }
+  const res: any = await api.imageList(req)
+  if (res.code === 200) {
+    data.splice(0, data.length)
+    data.push(...res.data)
+  }
+}
+
+onMounted(() => {
+  getImages()
 })
 </script>
 
