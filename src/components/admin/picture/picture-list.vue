@@ -2,43 +2,29 @@
   <div class="pic-list">
     <n-grid :x-gap="12" :y-gap="8" :cols="4">
       <n-grid-item>
-        <n-input type="text" v-model="search.originalName" placeholder="图片名称" clearable />
-      </n-grid-item>
-      <n-grid-item>
-
-      </n-grid-item>
-      <n-grid-item>
-
-      </n-grid-item>
-      <n-grid-item>
-
-      </n-grid-item>
-      <n-grid-item>
-
-      </n-grid-item>
-      <n-grid-item>
-
-      </n-grid-item>
-      <n-grid-item>
-
-      </n-grid-item>
-      <n-grid-item>
-
+        <n-input-group>
+          <n-input type="text" v-model="search.originalName" placeholder="图片名称" clearable />
+          <n-button type="primary" ghost>
+            <template #icon>
+              <n-icon><search20-filled /></n-icon>
+            </template>
+          </n-button>
+        </n-input-group>
       </n-grid-item>
     </n-grid>
-
     <n-data-table :columns="columns" :data="data" :pagination="paginationReactive" />
   </div>
 </template>
 <script setup lang="ts">
 import { onMounted, reactive } from "vue";
 import server from '@/server';
+import { Search20Filled } from "@vicons/fluent";
 
 const search = reactive({
-  originalName: '',
-  username: '',
-  groupName: '',
-  uploadIP: '',
+  originalName: '', // 文件名称
+  username: '', // 搜索用户名
+  groupName: '', // 群组名称
+  uploadIP: '', // 上传者IP
 })
 
 const { api } = server;
@@ -114,4 +100,11 @@ onMounted(() => {
   getImages()
 })
 </script>
+
+<style lang="scss" scoped>
+.n-grid {
+  box-sizing: border-box;
+  padding-bottom: 10px;
+}
+</style>
 
