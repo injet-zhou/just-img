@@ -99,7 +99,15 @@ const menuOptions: MenuOption[] = [
     ],
   },
   {
-    label: '用户管理',
+    label: () => {
+      return h(
+        RouterLink,
+        { to: { name: 'admin_user_list' } },
+        {
+          default: () => '用户列表',
+        }
+      )
+    },
     key: 'user',
     icon: renderIcon(PersonSettings20Filled),
   },

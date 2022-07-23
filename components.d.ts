@@ -50,6 +50,7 @@ declare module '@vue/runtime-core' {
     UploadInfo: typeof import('./src/components/upload/upload-info.vue')['default']
     UploadList: typeof import('./src/components/upload/upload-list.vue')['default']
     UploadListItem: typeof import('./src/components/upload/upload-list-item.vue')['default']
+    UserList: typeof import('./src/components/admin/user/user-list.vue')['default']
   }
 }
 

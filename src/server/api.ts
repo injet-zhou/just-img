@@ -40,10 +40,15 @@ function imageList(req: any) {
   return axios.post('/file/image/list', req)
 }
 
+function userList(req: any) {
+  return axios.post('/user/list', req)
+}
+
 export default {
   login,
   upload,
   register,
   platforms,
   imageList,
+  userList,
 }
